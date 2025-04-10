@@ -28,7 +28,6 @@ class dangky : AppCompatActivity() {
 
     private val REQUEST_CODE_PICK_IMAGE = 1001
     private var avatarUri: Uri? = null
-    private var isAvatarSelected = false
 
     private val supabase by lazy {
         createSupabaseClient(
@@ -58,6 +57,12 @@ class dangky : AppCompatActivity() {
         editTextRePassword = findViewById(R.id.edittext_repassword)
         btnSignup = findViewById(R.id.btnSignup)
         haveAccountTv = findViewById(R.id.have_accountTv)
+        avatarImageView = findViewById(R.id.avatarImageView)
+
+        avatarImageView.setOnClickListener {
+            val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            startActivityForResult(intent, REQUEST_CODE_PICK_IMAGE)
+        }
 
         btnSignup.setOnClickListener { handleSignup() }
 
@@ -72,35 +77,67 @@ class dangky : AppCompatActivity() {
         val password = editTextPassword.text.toString().trim()
         val rePassword = editTextRePassword.text.toString().trim()
 
-        when {
-            username.isEmpty() || email.isEmpty() || password.isEmpty() || rePassword.isEmpty() ->
-                showToast("Vui lòng nhập đầy đủ thông tin")
-            password != rePassword ->
-                showToast("Mật khẩu không khớp")
-            else -> {
-                CoroutineScope(Dispatchers.IO).launch {
-                    try {
-                        val hashedPassword = hashPassword(password)
-                        val newUser = User(
-                            username = username,
-                            email = email,
-                            password = hashedPassword
-                        )
+        if (username.isEmpty() || email.isEmpty() || password.isEmpty() || rePassword.isEmpty()) {
+            showToast("Vui lòng nhập đầy đủ thông tin")
+            return
+        }
 
-                        supabase.from("nguoidung").insert(newUser)
+        if (password != rePassword) {
+            showToast("Mật khẩu không khớp")
+            return
+        }
 
-                        withContext(Dispatchers.Main) {
-                            showToast("Đăng ký thành công")
-//                            startActivity(Intent(applicationContext, Loginn::class.java))
-                            finish()
-                        }
-                    } catch (e: Exception) {
-                        Log.e("SupabaseError", "Lỗi đăng ký", e)
-                        withContext(Dispatchers.Main) {
-                            showToast("Đăng ký thất bại: ${e.message}")
-                        }
-                    }
+        CoroutineScope(Dispatchers.IO).launch {
+            try {
+                val avatarUrl = avatarUri?.let { uploadAvatarToSupabase(it) }
+                val hashedPassword = hashPassword(password)
+                val newUser = User(
+                    username = username,
+                    email = email,
+                    password = hashedPassword,
+                    anh = avatarUrl ?: ""
+                )
+
+                supabase.from("nguoidung").insert(newUser)
+
+                withContext(Dispatchers.Main) {
+                    showToast("Đăng ký thành công")
+                    finish()
                 }
+            } catch (e: Exception) {
+                Log.e("SupabaseError", "Lỗi đăng ký", e)
+                withContext(Dispatchers.Main) {
+                    showToast("Đăng ký thất bại: ${e.message}")
+                }
+            }
+        }
+    }
+
+    private suspend fun uploadAvatarToSupabase(uri: Uri): String? {
+        return try {
+            val inputStream = contentResolver.openInputStream(uri)
+            val bytes = inputStream?.readBytes() ?: return null
+            val fileName = "avatar_${UUID.randomUUID()}.jpg"
+            val bucket = supabase.storage.from("images")
+
+            bucket.upload(fileName, bytes) {
+                upsert = true
+            }
+
+            bucket.publicUrl(fileName)
+        } catch (e: Exception) {
+            Log.e("UploadError", "Không thể upload ảnh", e)
+            null
+        }
+    }
+
+    @Deprecated("Deprecated in Java")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_CODE_PICK_IMAGE && resultCode == Activity.RESULT_OK) {
+            data?.data?.let {
+                avatarUri = it
+                avatarImageView.setImageURI(it)
             }
         }
     }
@@ -120,9 +157,10 @@ class dangky : AppCompatActivity() {
 
 @Serializable
 data class User(
-    val id: Int = 0, // nếu bảng `nguoidung` có auto increment
+    val id: Int = 0,
     val username: String,
     val email: String,
     val password: String,
+    val anh: String = "",
     val vai_tro: String = "user"
 )
