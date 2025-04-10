@@ -21,6 +21,15 @@
         android:theme="@style/Theme.YoloV9Tflite"
         tools:targetApi="31">
         <activity
+            android:name=".DangNhap"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
             android:name=".testdb"
             android:exported="false" />
         <activity
