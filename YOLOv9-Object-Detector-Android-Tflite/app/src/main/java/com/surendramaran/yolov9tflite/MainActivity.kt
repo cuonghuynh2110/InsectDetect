@@ -23,6 +23,7 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.surendramaran.yolov9tflite.Constants.LABELS_PATH
 import com.surendramaran.yolov9tflite.Constants.MODEL_PATH
 import com.surendramaran.yolov9tflite.databinding.ActivityMainBinding
@@ -50,6 +51,37 @@ class MainActivity : AppCompatActivity(), Detector.DetectorListener {
 
         enableEdgeToEdge()
         setContentView(binding.root)
+
+        //
+        // Gắn sự kiện cho bottom navigation
+        val bottomNav = findViewById<BottomNavigationView>(R.id.bottom_navigation)
+
+        // Set item được chọn là Home
+        bottomNav.selectedItemId = R.id.nav_detect
+
+        bottomNav.setOnItemSelectedListener { item ->
+            when (item.itemId) {
+                R.id.nav_detect -> {
+                    // Đang ở Home, không cần chuyển
+                    true
+                }
+                R.id.nav_home -> {
+                    val intent = Intent(this, Home::class.java)
+                    startActivity(intent)
+                    overridePendingTransition(0, 0) // Không animation chuyển trang
+                    true
+                }
+                R.id.nav_me -> {
+                    val intent = Intent(this, me::class.java)
+                    startActivity(intent)
+                    overridePendingTransition(0, 0)
+                    true
+                }
+                else -> false
+            }
+        }
+        //
+
         //map
         val btnChonAnh: Button = findViewById(R.id.chonanh)
         val btnJetsonCam: Button = findViewById(R.id.jetsoncam)

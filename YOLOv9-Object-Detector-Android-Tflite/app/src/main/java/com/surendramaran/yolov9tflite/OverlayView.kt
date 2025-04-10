@@ -40,10 +40,12 @@ class OverlayView(context: Context?, attrs: AttributeSet?) : View(context, attrs
         textPaint.style = Paint.Style.FILL
         textPaint.textSize = 50f
 
-        boxPaint.color = ContextCompat.getColor(context!!, R.color.bounding_box_color)
+        boxPaint.color = ContextCompat.getColor(context!!, R.color.dodo)
         boxPaint.strokeWidth = 8F
         boxPaint.style = Paint.Style.STROKE
     }
+
+    //None of cnf
 
 //    override fun draw(canvas: Canvas) {
 //        super.draw(canvas)
@@ -71,6 +73,8 @@ class OverlayView(context: Context?, attrs: AttributeSet?) : View(context, attrs
 //
 //        }
 //    }
+
+    //Draw with cnf
 //override fun draw(canvas: Canvas) {
 //    super.draw(canvas)
 //
@@ -103,12 +107,14 @@ class OverlayView(context: Context?, attrs: AttributeSet?) : View(context, attrs
 //    }
 //}
 
+    //Draw with cnf > 0.6
+
     override fun draw(canvas: Canvas) {
         super.draw(canvas)
 
         results.forEach {
             // 🔹 Chỉ vẽ nếu độ tin cậy > 50%
-            if (it.cnf > 0.7) {
+            if (it.cnf > 0.6) {
                 val left = it.x1 * width
                 val top = it.y1 * height
                 val right = it.x2 * width

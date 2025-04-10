@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "813993740222",
+    "firebase_url": "https://khoaluan-da062-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "khoaluan-da062",
+    "storage_bucket": "khoaluan-da062.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:813993740222:android:04b218450aac0276875bef",
+        "android_client_info": {
+          "package_name": "com.surendramaran.yolov9tflite"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA3zIbdXbdUJK4TCLSAyHlq-yrD7LI2or8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

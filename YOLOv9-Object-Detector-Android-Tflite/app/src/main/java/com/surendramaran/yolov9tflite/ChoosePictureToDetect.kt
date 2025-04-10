@@ -69,7 +69,7 @@ class ChoosePictureToDetect : AppCompatActivity(), Detector.DetectorListener {
             if (selectedBitmap != null) {
                 try {
                     // Thay đổi kích thước ảnh xuống 416 x 416 (hoặc kích thước khác phù hợp với mô hình của bạn)
-                    val resizedBitmap = resizeBitmap(selectedBitmap!!, 416, 416)
+                    val resizedBitmap = resizeBitmap(selectedBitmap!!, 640, 640)
 
                     // In thông tin của bitmap đã thay đổi kích thước để kiểm tra
 //                    Toast.makeText(this, "Kích thước ảnh sau khi thay đổi: ${resizedBitmap.width} x ${resizedBitmap.height}", Toast.LENGTH_SHORT).show()

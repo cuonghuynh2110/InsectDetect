@@ -1,4 +1,4 @@
-package org.tensorflow.lite.examples.detection.Models;
+package com.surendramaran.yolov9tflite.Models;
 
 public class Comments {
     String cId, comment, timestamp, uid, uEmail, uDp,uName;

@@ -1,10 +1,201 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+    android:layout_height="wrap_content"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".infor_insect">
+    android:background="@color/white"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
+    <RelativeLayout
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        android:layout_marginTop="350dp"
+        android:layout_centerHorizontal="true"
+        android:layout_centerVertical="true"
+        android:id="@+id/notinternet"
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <ImageView
+            android:id="@+id/image_internet"
+            android:layout_marginLeft="10dp"
+            android:src="@drawable/alticini"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        </ImageView>
+        <TextView
+            android:id="@+id/textThongBao"
+            android:layout_width="wrap_content"
+            android:textStyle="italic"
+            android:textSize="25dp"
+            android:textColor="@color/black"
+            android:text="Không có kết nối internet"
+            android:layout_toRightOf="@+id/image_internet"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="10dp"
+            android:layout_height="wrap_content"/>
+    </RelativeLayout>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <LinearLayout
+            android:id="@+id/lineatong"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            tools:context=".InfoInsect">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@color/white"
+                >
+                <TextView
+                    android:id="@+id/txttenvietnam_info_offline"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/black"
+                    android:fontFamily="serif"
+                    android:layout_marginLeft="15dp"
+                    android:textSize="25dp"
+                    android:layout_weight="1"
+                    android:text="fdasfa"
+                    >
+
+                </TextView>
+
+                <TextView
+                    android:id="@+id/txttenkhoahoc_info_offline"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:fontFamily="serif"
+                    android:text="afdadffas"
+                    android:textSize="15dp"
+                    tools:ignore="TextSizeCheck"></TextView>
+                <com.google.android.material.imageview.ShapeableImageView
+                    android:layout_height="200dp"
+                    android:id="@+id/imagedetect_info_offline"
+                    android:layout_width="match_parent"
+                    android:scaleType="fitXY"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    app:srcCompat="@drawable/alticini"
+                    app:shapeAppearanceOverlay="@style/roundedCorners">
+
+                </com.google.android.material.imageview.ShapeableImageView>
+                <!--                <ImageView-->
+                <!--                    android:layout_marginTop="10dp"-->
+                <!--                    android:layout_marginLeft="10dp"-->
+                <!--                    android:layout_marginRight="10dp"-->
+                <!--                    android:id="@+id/imagedetect_info_fromListInsect"-->
+                <!--                    android:layout_width="match_parent"-->
+                <!--                    android:layout_height="200dp"-->
+                <!--                    android:scaleType="fitXY"-->
+                <!--                    app:srcCompat="@drawable/insectbutterfly" />-->
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="15dp"
+                android:orientation="vertical"
+                android:paddingLeft="25dp"
+                android:paddingRight="15dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:fontFamily="serif"
+                    android:text="ĐẶC ĐIỂM SINH HỌC"
+                    android:textColor="#088080"
+                    android:textSize="22dp" />
+
+                <TextView
+                    android:id="@+id/txtdacdiemsinhhoc_info_offline"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="serif"
+                    android:text="fdasfa"
+                    android:layout_marginBottom="20dp"
+                    android:textColor="@color/black"
+                    android:textSize="20dp">
+
+                </TextView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:fontFamily="serif"
+                    android:text="PHÂN BỐ"
+                    android:textColor="#088080"
+                    android:textSize="22dp" />
+
+                <TextView
+                    android:id="@+id/txtphanbo_info_offline"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:fontFamily="serif"
+                    android:text="fdasfa"
+                    android:textColor="@color/black"
+                    android:textSize="20dp"></TextView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:fontFamily="serif"
+                    android:text="HÌNH THÁI"
+                    android:textColor="#088080"
+                    android:textSize="22dp" />
+
+                <TextView
+                    android:id="@+id/txthinhthai_info_offline"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:fontFamily="serif"
+                    android:text="fdsafasd"
+                    android:textColor="@color/black"
+                    android:textSize="20dp"></TextView>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="20dp"
+                    android:fontFamily="serif"
+                    android:text="BIỆN PHÁP PHÒNG TRỪ"
+                    android:textColor="#088080"
+                    android:textSize="22dp" />
+
+                <TextView
+                    android:id="@+id/txtbienphapphongtru_info_offline"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="40dp"
+                    android:fontFamily="serif"
+                    android:paddingBottom="@dimen/size_10dp"
+                    android:text="fsadafadfa"
+                    android:textColor="@color/black"
+
+                    android:textSize="20dp">
+
+                </TextView>
+            </LinearLayout>
+            <!--            <Button-->
+            <!--                android:id="@+id/btnback_viewmultiImage"-->
+            <!--                android:layout_width="wrap_content"-->
+            <!--                android:layout_height="wrap_content"-->
+            <!--                android:text="ViewMultiImage">-->
+            <!--            </Button>-->
+        </LinearLayout>
+    </ScrollView>
+
+
+</RelativeLayout>
+
