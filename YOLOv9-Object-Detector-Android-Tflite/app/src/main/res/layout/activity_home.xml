@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main"
@@ -7,87 +8,98 @@
     android:layout_height="match_parent"
     tools:context=".Home">
 
-    <!-- 📜 ScrollView chứa nội dung chính -->
-    <ScrollView
-        android:id="@+id/scrollView"
+    <!-- 👤 Header -->
+    <LinearLayout
+        android:id="@+id/headerLayout"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:padding="16dp"
+        android:gravity="center_vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <ImageView
+            android:id="@+id/imageAvatar"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:scaleType="centerCrop"
+            android:background="@drawable/circle_bg"
+            android:src="@drawable/ic_home"
+            android:layout_marginEnd="12dp"/>
+
+        <TextView
+            android:id="@+id/textName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tên người dùng"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="#000000"/>
+    </LinearLayout>
+
+    <!-- 📋 Nội dung chính gồm 2 ListView chia đều chiều cao -->
+    <LinearLayout
+        android:id="@+id/contentLayout"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:fillViewport="true"
-        app:layout_constraintTop_toTopOf="parent"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/headerLayout"
         app:layout_constraintBottom_toTopOf="@id/bottom_navigation"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
+        <!-- 🐞 ListView Côn trùng -->
         <LinearLayout
-            android:id="@+id/contentLayout"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:orientation="vertical"
-            android:padding="16dp">
+            android:padding="8dp">
 
-            <!-- 👤 Header: Avatar + Tên -->
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center_vertical">
-
-                <ImageView
-                    android:id="@+id/imageAvatar"
-                    android:layout_width="64dp"
-                    android:layout_height="64dp"
-                    android:layout_marginEnd="12dp"
-                    android:scaleType="centerCrop"
-                    android:background="@drawable/circle_bg"
-                    android:src="@drawable/ic_home" />
-
-                <TextView
-                    android:id="@+id/textName"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="Cuong Huynh"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:textColor="#000000" />
-            </LinearLayout>
-
-            <!-- 🐞 Danh sách Côn trùng -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Côn trùng"
-                android:textSize="14sp"
-                android:layout_marginTop="24dp"
-                android:textColor="#444444" />
+                android:textSize="16sp"
+                android:textColor="#444444"
+                android:layout_marginBottom="4dp" />
 
             <ListView
                 android:id="@+id/listInsects"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:divider="@android:color/darker_gray"
-                android:dividerHeight="1dp"
-                android:layout_marginTop="4dp"
-                android:nestedScrollingEnabled="true" />
+                android:dividerHeight="1dp" />
+        </LinearLayout>
 
-            <!-- 📝 Danh sách Bài viết -->
+        <!-- 📝 ListView Bài viết -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="vertical"
+            android:padding="8dp">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Bài viết"
-                android:textSize="14sp"
-                android:layout_marginTop="24dp"
-                android:textColor="#444444" />
+                android:textSize="16sp"
+                android:textColor="#444444"
+                android:layout_marginBottom="4dp" />
 
             <ListView
                 android:id="@+id/listPosts"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="0dp"
+                android:layout_weight="1"
                 android:divider="@android:color/darker_gray"
-                android:dividerHeight="1dp"
-                android:layout_marginTop="4dp"
-                android:nestedScrollingEnabled="true" />
+                android:dividerHeight="1dp" />
         </LinearLayout>
-    </ScrollView>
+    </LinearLayout>
 
     <!-- ✅ Bottom Navigation -->
     <com.google.android.material.bottomnavigation.BottomNavigationView

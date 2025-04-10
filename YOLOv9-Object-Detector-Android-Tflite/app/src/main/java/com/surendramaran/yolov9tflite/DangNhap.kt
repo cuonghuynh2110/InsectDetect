@@ -9,11 +9,16 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.lifecycle.lifecycleScope
 import com.google.android.gms.common.SignInButton
 import com.google.android.material.textfield.TextInputEditText
 import io.github.jan.supabase.createSupabaseClient
 import io.github.jan.supabase.postgrest.Postgrest
+import io.github.jan.supabase.postgrest.from
 import io.github.jan.supabase.storage.Storage
+import kotlinx.coroutines.launch
+import kotlinx.serialization.Serializable
+import java.security.MessageDigest
 
 class DangNhap : AppCompatActivity() {
 
@@ -72,17 +77,57 @@ class DangNhap : AppCompatActivity() {
             if (username.isEmpty() || password.isEmpty()) {
                 Toast.makeText(this, "Vui lòng nhập tên đăng nhập và mật khẩu", Toast.LENGTH_SHORT).show()
             } else {
-                // Nếu checkbox được chọn thì lưu lại thông tin
                 if (saveLoginCheckBox.isChecked) {
                     saveLogin(username, password)
                 } else {
                     clearSavedLogin()
                 }
 
+                // Hash mật khẩu
+//                val hashedPassword = hashPassword(password)
 
 
+                lifecycleScope.launch {
+                    try {
+                        val result = supabase.from("nguoidung")
+                            .select {
+                                filter {
+                                    eq("email", username)
+                                    eq("password", password)
+                                }
+                            }
+                            .decodeList<NguoiDung>()
+
+                        if (result.isNotEmpty()) {
+                            val user = result[0]
+
+                            when (user.vai_tro?.lowercase()) {
+                                "user" -> {
+                                    val intent = Intent(this@DangNhap, Home::class.java)
+                                    intent.putExtra("email", username) // username là email người dùng vừa nhập
+                                    startActivity(intent)
+                                }
+                                "admin" -> {
+                                    startActivity(Intent(this@DangNhap, dangky::class.java))
+                                }
+                                else -> {
+                                    Toast.makeText(this@DangNhap, "Vai trò không hợp lệ", Toast.LENGTH_SHORT).show()
+                                }
+                            }
+                            finish()
+                        } else {
+                            Toast.makeText(this@DangNhap, "Sai tài khoản hoặc mật khẩu", Toast.LENGTH_SHORT).show()
+                        }
+
+                    } catch (e: Exception) {
+                        Toast.makeText(this@DangNhap, " loi${e.message}", Toast.LENGTH_LONG).show()
+                        println("loi${e.message}")
+                        e.printStackTrace()
+                    }
+                }
             }
         }
+
 
         registerButton.setOnClickListener {
             startActivity(Intent(applicationContext, dangky::class.java))
@@ -124,4 +169,18 @@ class DangNhap : AppCompatActivity() {
     private fun clearSavedLogin() {
         sharedPreferences.edit().clear().apply()
     }
+    private fun hashPassword(password: String): String {
+        val bytes = password.toByteArray()
+        val md = MessageDigest.getInstance("SHA-256")
+        return md.digest(bytes).joinToString("") { "%02x".format(it) }
+    }
 }
+
+@Serializable
+data class NguoiDung(
+    val id: String,
+    val email: String,
+    val password: String? = null,
+    val vai_tro: String? = null,
+    val anh: String? = null,
+)

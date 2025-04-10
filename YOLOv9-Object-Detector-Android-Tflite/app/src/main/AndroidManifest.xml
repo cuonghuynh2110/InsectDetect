@@ -54,12 +54,8 @@
         <!-- android:exported="false" /> &lt;!&ndash; Đặt Loginn là activity mặc định &ndash;&gt; -->
         <activity
             android:name=".Loginn"
-            android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            android:exported="false">
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
         <activity
             android:name=".regis"

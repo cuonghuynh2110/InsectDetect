@@ -31,13 +31,18 @@ class me : AppCompatActivity() {
                     true
                 }
                 R.id.nav_detect -> {
-                    val intent = Intent(this, MainActivity::class.java)
+                    val email = intent.getStringExtra("email")
+                    val intent = Intent(applicationContext, MainActivity::class.java)
+                    intent.putExtra("email", email)
                     startActivity(intent)
-                    overridePendingTransition(0, 0) // Không animation chuyển trang
+                    overridePendingTransition(0, 0)
                     true
                 }
+
                 R.id.nav_home -> {
-                    val intent = Intent(this, Home::class.java)
+                    val email = intent.getStringExtra("email")
+                    val intent = Intent(applicationContext, Home::class.java)
+                    intent.putExtra("email", email)
                     startActivity(intent)
                     overridePendingTransition(0, 0)
                     true
