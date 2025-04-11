@@ -60,13 +60,13 @@ class Home : AppCompatActivity() {
         username.setText(email)
         // Dùng email này để truy vấn ảnh người dùng trên Supabase
         if (email != null) {
-            Toast.makeText(this, "Đã nhận được email: $email", Toast.LENGTH_SHORT).show()
+//            Toast.makeText(this, "Đã nhận được email: $email", Toast.LENGTH_SHORT).show()
             fetchUserAvatarByEmail(email)
         } else {
             Toast.makeText(this, "Không nhận được email", Toast.LENGTH_SHORT).show()
         }
 
-        // ✅ Hiển thị danh sách côn trùng
+
         val listView = findViewById<ListView>(R.id.listInsects)
 
         val insectList = listOf(
