@@ -1,201 +1,194 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_height="wrap_content"
     android:layout_width="match_parent"
-    android:background="@color/white"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical">
-    <RelativeLayout
-        android:layout_centerInParent="true"
-        android:visibility="gone"
-        android:layout_marginTop="350dp"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:id="@+id/notinternet"
+    android:layout_height="match_parent"
+    android:background="#FFFFFF">
 
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <ImageView
-            android:id="@+id/image_internet"
-            android:layout_marginLeft="10dp"
-            android:src="@drawable/alticini"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
-        </ImageView>
-        <TextView
-            android:id="@+id/textThongBao"
-            android:layout_width="wrap_content"
-            android:textStyle="italic"
-            android:textSize="25dp"
-            android:textColor="@color/black"
-            android:text="Không có kết nối internet"
-            android:layout_toRightOf="@+id/image_internet"
-            android:layout_centerInParent="true"
-            android:layout_marginLeft="10dp"
-            android:layout_height="wrap_content"/>
-    </RelativeLayout>
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-        <LinearLayout
-            android:id="@+id/lineatong"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:gravity="center"
-            tools:context=".InfoInsect">
+        android:layout_height="match_parent"
+        android:fillViewport="true">
 
-            <LinearLayout
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Ảnh côn trùng -->
+            <ImageView
+                android:id="@+id/imgAnh"
+                android:layout_width="match_parent"
+                android:layout_height="203dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginBottom="24dp"
+                android:background="@drawable/rounded_image"
+                android:clipToOutline="true"
+                android:scaleType="centerCrop"
+                android:src="@drawable/alticini" />
+
+
+            <!-- Tên chính -->
+            <TextView
+                android:id="@+id/tvTen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Cabbage white"
+                android:textSize="22sp"
+                android:textStyle="bold"
+                android:textColor="#000000" />
+
+            <!-- Họ và chi -->
+<!--            <TextView-->
+<!--                android:id="@+id/tvHoChi"-->
+<!--                android:layout_width="wrap_content"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="a species of Whites and sulphurs (Pieridae)"-->
+<!--                android:textSize="14sp"-->
+<!--                android:textColor="#777777"-->
+<!--                android:layout_marginBottom="8dp" />-->
+
+            <!-- Các tên gọi khác -->
+<!--            <TextView-->
+<!--                android:id="@+id/tvTenKhac"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Also known as: Cabbage white butterfly, Small white, Pepe ma, etc."-->
+<!--                android:textSize="14sp"-->
+<!--                android:textColor="#333333"-->
+<!--                android:layout_marginBottom="8dp" />-->
+
+            <!-- Tên khoa học -->
+            <TextView
+                android:id="@+id/tvTenKH"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
-                android:background="@color/white"
-                >
-                <TextView
-                    android:id="@+id/txttenvietnam_info_offline"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textColor="@color/black"
-                    android:fontFamily="serif"
-                    android:layout_marginLeft="15dp"
-                    android:textSize="25dp"
-                    android:layout_weight="1"
-                    android:text="fdasfa"
-                    >
+                android:text="Scientific name: Pieris rapae"
+                android:textSize="14sp"
+                android:textColor="#333333"
+                android:layout_marginBottom="4dp" />
 
-                </TextView>
+            <!-- Chi -->
+<!--            <TextView-->
+<!--                android:id="@+id/tvChi"-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:text="Genus: Pieris"-->
+<!--                android:textSize="14sp"-->
+<!--                android:textColor="#333333"-->
+<!--                android:layout_marginBottom="16dp" />-->
 
-                <TextView
-                    android:id="@+id/txttenkhoahoc_info_offline"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="15dp"
-                    android:fontFamily="serif"
-                    android:text="afdadffas"
-                    android:textSize="15dp"
-                    tools:ignore="TextSizeCheck"></TextView>
-                <com.google.android.material.imageview.ShapeableImageView
-                    android:layout_height="200dp"
-                    android:id="@+id/imagedetect_info_offline"
-                    android:layout_width="match_parent"
-                    android:scaleType="fitXY"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginRight="15dp"
-                    app:srcCompat="@drawable/alticini"
-                    app:shapeAppearanceOverlay="@style/roundedCorners">
-
-                </com.google.android.material.imageview.ShapeableImageView>
-                <!--                <ImageView-->
-                <!--                    android:layout_marginTop="10dp"-->
-                <!--                    android:layout_marginLeft="10dp"-->
-                <!--                    android:layout_marginRight="10dp"-->
-                <!--                    android:id="@+id/imagedetect_info_fromListInsect"-->
-                <!--                    android:layout_width="match_parent"-->
-                <!--                    android:layout_height="200dp"-->
-                <!--                    android:scaleType="fitXY"-->
-                <!--                    app:srcCompat="@drawable/insectbutterfly" />-->
-            </LinearLayout>
-
+            <!-- Non-toxic & Harmful badges -->
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginTop="15dp"
-                android:orientation="vertical"
-                android:paddingLeft="25dp"
-                android:paddingRight="15dp">
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginBottom="24dp">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="20dp"
-                    android:fontFamily="serif"
-                    android:text="ĐẶC ĐIỂM SINH HỌC"
-                    android:textColor="#088080"
-                    android:textSize="22dp" />
-
-                <TextView
-                    android:id="@+id/txtdacdiemsinhhoc_info_offline"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:fontFamily="serif"
-                    android:text="fdasfa"
-                    android:layout_marginBottom="20dp"
-                    android:textColor="@color/black"
-                    android:textSize="20dp">
-
-                </TextView>
+                    android:text="👤 Non-toxic"
+                    android:padding="8dp"
+                    android:background="@drawable/bg_badge_green"
+                    android:textColor="#000000"
+                    android:textSize="14sp"
+                    android:layout_marginEnd="8dp" />
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="20dp"
-                    android:fontFamily="serif"
-                    android:text="PHÂN BỐ"
-                    android:textColor="#088080"
-                    android:textSize="22dp" />
-
-                <TextView
-                    android:id="@+id/txtphanbo_info_offline"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="20dp"
-                    android:fontFamily="serif"
-                    android:text="fdasfa"
-                    android:textColor="@color/black"
-                    android:textSize="20dp"></TextView>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="20dp"
-                    android:fontFamily="serif"
-                    android:text="HÌNH THÁI"
-                    android:textColor="#088080"
-                    android:textSize="22dp" />
-
-                <TextView
-                    android:id="@+id/txthinhthai_info_offline"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="20dp"
-                    android:fontFamily="serif"
-                    android:text="fdsafasd"
-                    android:textColor="@color/black"
-                    android:textSize="20dp"></TextView>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="20dp"
-                    android:fontFamily="serif"
-                    android:text="BIỆN PHÁP PHÒNG TRỪ"
-                    android:textColor="#088080"
-                    android:textSize="22dp" />
-
-                <TextView
-                    android:id="@+id/txtbienphapphongtru_info_offline"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="40dp"
-                    android:fontFamily="serif"
-                    android:paddingBottom="@dimen/size_10dp"
-                    android:text="fsadafadfa"
-                    android:textColor="@color/black"
-
-                    android:textSize="20dp">
-
-                </TextView>
+                    android:text="🌱 Harmful to plants"
+                    android:padding="8dp"
+                    android:background="@drawable/bg_badge_red"
+                    android:textColor="#000000"
+                    android:textSize="14sp" />
             </LinearLayout>
-            <!--            <Button-->
-            <!--                android:id="@+id/btnback_viewmultiImage"-->
-            <!--                android:layout_width="wrap_content"-->
-            <!--                android:layout_height="wrap_content"-->
-            <!--                android:text="ViewMultiImage">-->
-            <!--            </Button>-->
+
+            <!-- Đặc tính -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="📖 Mô tả"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_marginBottom="4dp" />
+
+            <TextView
+                android:id="@+id/tvTaptinh"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="The Cabbage white is a ferocious pest for cabbage, kale, and broccoli. It emerges early in spring."
+                android:textSize="14sp"
+                android:textColor="#000000"
+                android:layout_marginBottom="16dp" />
+
+            <!-- Ngoại hình -->
+
+
+            <TextView
+                android:id="@+id/tvMota"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="White wings with small black dots. Upperside creamy white, wingspan 1.3–1.9 inch, etc."
+                android:textSize="14sp"
+                android:textColor="#000000"
+                android:layout_marginBottom="16dp" />
+
+            <!-- 🌍 Phân bố -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="🌍 Phân bố"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_marginBottom="4dp" />
+
+            <TextView
+                android:id="@+id/tvPhanbo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Phân bố rộng khắp châu Âu, châu Á, Bắc Mỹ và nhiều vùng ôn đới khác."
+                android:textSize="14sp"
+                android:textColor="#000000"
+                android:layout_marginBottom="16dp" />
+
+            <!-- 🔬 Hình thái -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="🔬 Hình thái"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_marginBottom="4dp" />
+
+            <TextView
+                android:id="@+id/tvHinhtai"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Cánh màu trắng với chấm đen đặc trưng. Cơ thể nhỏ, anten dài, chân mảnh."
+                android:textSize="14sp"
+                android:textColor="#000000"
+                android:layout_marginBottom="16dp" />
+
+            <!-- 🛡️ Biện pháp phòng trừ -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="🛡️ Biện pháp phòng trừ"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_marginBottom="4dp" />
+
+            <TextView
+                android:id="@+id/tvPhongtru"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Sử dụng bẫy pheromone, thuốc trừ sâu sinh học, và biện pháp canh tác hợp lý để kiểm soát số lượng."
+                android:textSize="14sp"
+                android:textColor="#000000"
+                android:layout_marginBottom="24dp" />
         </LinearLayout>
     </ScrollView>
 
-
 </RelativeLayout>
-
