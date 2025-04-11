@@ -1,6 +1,12 @@
 package com.surendramaran.yolov9tflite
 
+import android.app.Activity
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
+import android.provider.MediaStore
+import android.util.Log
+import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ImageView
@@ -15,9 +21,16 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import io.github.jan.supabase.createSupabaseClient
 import io.github.jan.supabase.postgrest.Postgrest
+import io.github.jan.supabase.postgrest.from
 import io.github.jan.supabase.postgrest.postgrest
 import io.github.jan.supabase.storage.Storage
+import io.github.jan.supabase.storage.storage
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import kotlinx.serialization.Serializable
+import java.util.UUID
 
 class Editprofile : AppCompatActivity() {
     private val supabase by lazy {
@@ -29,6 +42,10 @@ class Editprofile : AppCompatActivity() {
             install(Storage)
         }
     }
+    private val REQUEST_CODE_PICK_IMAGE = 1001
+    private var selectedImageUri: Uri? = null
+
+
     private lateinit var btnBack: ImageButton
     private lateinit var tvEditProfileTitle: TextView
     private lateinit var imgAvt: ImageView
@@ -37,6 +54,7 @@ class Editprofile : AppCompatActivity() {
     private lateinit var etNickname: EditText
     private lateinit var tvEmailLabel: TextView
     private lateinit var etEmail: EditText
+    private lateinit var btnSave: Button
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -59,6 +77,7 @@ class Editprofile : AppCompatActivity() {
         etNickname = findViewById(R.id.etNickname)
         tvEmailLabel = findViewById(R.id.tvEmailLabel)
         etEmail = findViewById(R.id.etEmail)
+        btnSave = findViewById(R.id.btnSave)
 
         // Lấy email từ Intent và hiển thị
         val email = intent.getStringExtra("email")
@@ -70,6 +89,46 @@ class Editprofile : AppCompatActivity() {
         // Sự kiện nút back
         btnBack.setOnClickListener {
             finish()
+        }
+
+        imgAvt.setOnClickListener {
+            val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+            startActivityForResult(intent, REQUEST_CODE_PICK_IMAGE)
+        }
+        btnSave.setOnClickListener {
+            val username = etNickname.text.toString().trim()
+            val email = etEmail.text.toString().trim()
+
+            if (username.isEmpty()) {
+                Toast.makeText(this, "Vui lòng nhập username", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            CoroutineScope(Dispatchers.IO).launch {
+                try {
+                    val imageUrl = selectedImageUri?.let { uploadAvatarToSupabase(it) }
+
+                    val request = UpdateUserRequest(username = username, anh = imageUrl)
+
+                    supabase.from("nguoidung")
+                        .update(request) {
+                            filter {
+                                eq("email", email)
+                            }
+                        }
+
+
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(this@Editprofile, "Cập nhật thành công", Toast.LENGTH_SHORT).show()
+                        finish()
+                    }
+                } catch (e: Exception) {
+                    Log.e("UpdateError", "Cập nhật thất bại", e)
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(this@Editprofile, "Lỗi cập nhật: ${e.message}", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
         }
     }
 
@@ -102,4 +161,36 @@ class Editprofile : AppCompatActivity() {
             }
         }
     }
+    @Deprecated("Deprecated in Java")
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        if (requestCode == REQUEST_CODE_PICK_IMAGE && resultCode == Activity.RESULT_OK) {
+            data?.data?.let {
+                selectedImageUri = it
+                imgAvt.setImageURI(it)
+            }
+        }
+    }
+    private suspend fun uploadAvatarToSupabase(uri: Uri): String? {
+        return try {
+            val inputStream = contentResolver.openInputStream(uri)
+            val bytes = inputStream?.readBytes() ?: return null
+            val fileName = "avatar_${UUID.randomUUID()}.jpg"
+            val bucket = supabase.storage.from("images")
+
+            bucket.upload(fileName, bytes) {
+                upsert = true
+            }
+
+            bucket.publicUrl(fileName)
+        } catch (e: Exception) {
+            Log.e("UploadError", "Không thể upload ảnh", e)
+            null
+        }
+    }
 }
+@Serializable
+data class UpdateUserRequest(
+    val username: String,
+    val anh: String? = null
+)
