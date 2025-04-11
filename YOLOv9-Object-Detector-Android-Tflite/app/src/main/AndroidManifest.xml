@@ -21,6 +21,14 @@
         android:theme="@style/Theme.YoloV9Tflite"
         tools:targetApi="31">
         <activity
+            android:name=".Chatgpt"
+            android:exported="false" />
+<!--        <activity-->
+<!--            android:name=".Chatgpt"-->
+<!--            android:exported="false"-->
+<!--            android:label="@string/title_activity_easy_bot"-->
+<!--            android:theme="@style/Theme.YoloV9Tflite" />-->
+        <activity
             android:name=".Editprofile"
             android:exported="false" />
         <activity

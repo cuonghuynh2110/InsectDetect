@@ -100,5 +100,5 @@ dependencies {
 
     // =================== CUSTOM ============================
     implementation("de.hdodenhof:circleimageview:3.1.0")
-
+    implementation("com.squareup.okhttp3:okhttp:4.12.0")
 }

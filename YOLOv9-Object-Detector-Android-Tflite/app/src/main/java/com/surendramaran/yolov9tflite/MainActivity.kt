@@ -385,7 +385,7 @@ class MainActivity : AppCompatActivity(), Detector.DetectorListener {
         }
     }
 
-//    override fun onDetect(boundingBoxes: List<BoundingBox>, inferenceTime: Long) {
+    //    override fun onDetect(boundingBoxes: List<BoundingBox>, inferenceTime: Long) {
 //        runOnUiThread {
 //            binding.inferenceTime.text = "${inferenceTime}ms"
 //            binding.overlay.apply {
@@ -394,24 +394,24 @@ class MainActivity : AppCompatActivity(), Detector.DetectorListener {
 //            }
 //        }
 //    }
-override fun onDetect(boundingBoxes: List<BoundingBox>, inferenceTime: Long) {
-    runOnUiThread {
-        binding.inferenceTime.text = "${inferenceTime}ms"
-        binding.overlay.apply {
-            setResults(boundingBoxes)
-            invalidate()
-        }
+    override fun onDetect(boundingBoxes: List<BoundingBox>, inferenceTime: Long) {
+        runOnUiThread {
+            binding.inferenceTime.text = "${inferenceTime}ms"
+            binding.overlay.apply {
+                setResults(boundingBoxes)
+                invalidate()
+            }
 
-        // Nếu có ít nhất 1 đối tượng được nhận diện
-        if (boundingBoxes.isNotEmpty()) {
-            detectedInsectName = boundingBoxes[0].clsName // lưu tên lớp
-            binding.jetsoncam.text = "Xem: ${detectedInsectName}"
-        } else {
-            detectedInsectName = null
-            binding.jetsoncam.text = "..."
+            // Nếu có ít nhất 1 đối tượng được nhận diện
+            if (boundingBoxes.isNotEmpty()) {
+                detectedInsectName = boundingBoxes[0].clsName // lưu tên lớp
+                binding.jetsoncam.text = "Xem: ${detectedInsectName}"
+            } else {
+                detectedInsectName = null
+                binding.jetsoncam.text = "..."
+            }
         }
     }
-}
 
 
     private fun toast(message: String) {

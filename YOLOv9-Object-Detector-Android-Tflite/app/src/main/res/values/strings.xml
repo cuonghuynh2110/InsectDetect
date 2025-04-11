@@ -43,4 +43,6 @@
     <string name="title_activity_retrieve_map">RetrieveMapActivity</string>
     <string name="yolov9_object_detect">YOLOv9 Object Detection</string>
     <string name="gpu">GPU</string>
+<!--    <string name="app_name">Easy ChatGPT</string>-->
+
 </resources>
