@@ -59,6 +59,7 @@ class me : AppCompatActivity() {
         rvCollections = findViewById(R.id.rv_collections)
         bottomNav = findViewById(R.id.bottom_navigation)
 
+
         //nhan data
         val email = intent.getStringExtra("email")
 
@@ -69,6 +70,7 @@ class me : AppCompatActivity() {
         } else {
             Toast.makeText(this, "Không nhận được email", Toast.LENGTH_SHORT).show()
         }
+
 
         // Dữ liệu mẫu
         val sampleData = listOf(
@@ -109,8 +111,9 @@ class me : AppCompatActivity() {
 
         // Optional: xử lý nút setting nếu muốn
         imgSetting.setOnClickListener {
-            // Ví dụ mở activity cài đặt
-            // startActivity(Intent(this, SettingActivity::class.java))
+            val intent = Intent(this, Setting::class.java)
+            intent.putExtra("email", email)
+            startActivity(intent)
         }
     }
     private fun fetchUserAvatarByEmail(email: String) {

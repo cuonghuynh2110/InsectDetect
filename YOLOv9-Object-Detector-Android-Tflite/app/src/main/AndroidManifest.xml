@@ -21,6 +21,12 @@
         android:theme="@style/Theme.YoloV9Tflite"
         tools:targetApi="31">
         <activity
+            android:name=".Editprofile"
+            android:exported="false" />
+        <activity
+            android:name=".Setting"
+            android:exported="false" />
+        <activity
             android:name=".DangNhap"
             android:exported="true">
             <intent-filter>
@@ -54,9 +60,7 @@
         <!-- android:exported="false" /> &lt;!&ndash; Đặt Loginn là activity mặc định &ndash;&gt; -->
         <activity
             android:name=".Loginn"
-            android:exported="false">
-
-        </activity>
+            android:exported="false" />
         <activity
             android:name=".regis"
             android:exported="false" />

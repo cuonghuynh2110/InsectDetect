@@ -4,8 +4,11 @@ import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.widget.*
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -180,6 +183,7 @@ class DangNhap : AppCompatActivity() {
 data class NguoiDung(
     val id: String,
     val email: String,
+    val username: String,
     val password: String? = null,
     val vai_tro: String? = null,
     val anh: String? = null,
