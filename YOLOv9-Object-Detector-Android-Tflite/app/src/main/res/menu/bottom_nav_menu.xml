@@ -3,15 +3,21 @@
     <item
         android:id="@+id/nav_home"
         android:icon="@drawable/ic_home"
-        android:title="Home" />
+        android:title="" />
+
+    <!-- Mục Chat được thêm vào đây -->
+    <item
+        android:id="@+id/nav_chat"
+        android:icon="@drawable/baseline_chat_24"
+    android:title="" />
 
     <item
         android:id="@+id/nav_detect"
         android:icon="@drawable/ic_detect"
-        android:title="Detect" />
+        android:title="" />
 
     <item
         android:id="@+id/nav_me"
         android:icon="@drawable/ic_me"
-        android:title="Me" />
+        android:title="" />
 </menu>

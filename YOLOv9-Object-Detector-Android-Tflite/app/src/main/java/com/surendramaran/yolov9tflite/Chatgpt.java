@@ -5,11 +5,14 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -38,7 +41,7 @@ public class Chatgpt extends AppCompatActivity {
     public static final MediaType JSON = MediaType.get("application/json; charset=utf-8");
     OkHttpClient client = new OkHttpClient();
 
-    String API_KEY = "Bearer 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";
+    String API_KEY = "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";
     String API_URL = "https://openrouter.ai/api/v1/chat/completions";
 
     @Override
@@ -57,6 +60,40 @@ public class Chatgpt extends AppCompatActivity {
         LinearLayoutManager llm = new LinearLayoutManager(this);
         llm.setStackFromEnd(true);
         recyclerView.setLayoutManager(llm);
+
+        String email = getIntent().getStringExtra("email");
+
+        BottomNavigationView bottomNav = findViewById(R.id.bottom_navigation);
+        bottomNav.setSelectedItemId(R.id.nav_chat);
+
+        bottomNav.setOnItemSelectedListener(item -> {
+            int itemId = item.getItemId();
+            if (itemId == R.id.nav_home) {
+                Intent intent = new Intent(getApplicationContext(), Home.class);
+                intent.putExtra("email", email);
+                startActivity(intent);
+                overridePendingTransition(0, 0);
+                return true;
+            } else if (itemId == R.id.nav_detect) {
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                intent.putExtra("email", email);
+                startActivity(intent);
+                overridePendingTransition(0, 0);
+                return true;
+            } else if (itemId == R.id.nav_me) {
+                Intent intent = new Intent(getApplicationContext(), me.class);
+                intent.putExtra("email", email);
+                startActivity(intent);
+                overridePendingTransition(0, 0);
+                return true;
+            } else if(itemId == R.id.nav_chat){
+                return true;
+            }else{
+                return false;
+            }
+        });
+
+
 
         sendButton.setOnClickListener(v -> {
             String question = messageEditText.getText().toString().trim();
@@ -104,7 +141,7 @@ public class Chatgpt extends AppCompatActivity {
         RequestBody body = RequestBody.create(jsonBody.toString(), JSON);
         Request request = new Request.Builder()
                 .url(API_URL)
-                .header("Authorization", API_KEY)
+                .header("Authorization", "Bearer " + API_KEY)
                 .header("Content-Type", "application/json")
                 .post(body)
                 .build();

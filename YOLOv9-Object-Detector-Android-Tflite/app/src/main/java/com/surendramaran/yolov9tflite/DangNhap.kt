@@ -133,7 +133,7 @@ class DangNhap : AppCompatActivity() {
 
 
         registerButton.setOnClickListener {
-            startActivity(Intent(applicationContext, Chatgpt::class.java))
+            startActivity(Intent(applicationContext, dangky::class.java))
         }
 
         recoverPasswordTextView.setOnClickListener {

@@ -224,6 +224,14 @@ class Home : AppCompatActivity() {
                     true
                 }
 
+                R.id.nav_chat -> {
+                    val email = username.text.toString()
+                    val intent = Intent(applicationContext, Chatgpt::class.java)
+                    intent.putExtra("email", email)
+                    startActivity(intent)
+                    overridePendingTransition(0, 0)
+                    true
+                }
                 else -> false
             }
         }

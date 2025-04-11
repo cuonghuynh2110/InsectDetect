@@ -6,55 +6,61 @@
     android:layout_height="match_parent"
     tools:context=".Chatgpt">
 
+    <!-- RecyclerView để hiển thị tin nhắn -->
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/recycler_view"
-        android:layout_above="@id/bottom_layout"
-        />
+        android:layout_above="@id/bottom_layout" />
+
+    <!-- Text chào mừng -->
     <TextView
+        android:id="@+id/welcome_text"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/welcome_text"
         android:layout_centerInParent="true"
         android:text="Welcome to Easy ChatGPT\nTry it out now"
         android:gravity="center"
-        android:textSize="28dp"
-        />
+        android:textSize="28dp" />
 
+    <!-- Thanh nhập và gửi tin nhắn -->
     <RelativeLayout
+        android:id="@+id/bottom_layout"
         android:layout_width="match_parent"
         android:layout_height="80dp"
-        android:layout_alignParentBottom="true"
-        android:padding="8dp"
-        android:id="@+id/bottom_layout">
+        android:layout_above="@id/bottom_navigation"
+        android:padding="8dp">
+
         <EditText
+            android:id="@+id/message_edit_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/message_edit_text"
-            android:layout_centerInParent="true"
-            android:hint="Write here "
+            android:layout_toStartOf="@id/send_btn"
+            android:layout_centerVertical="true"
+            android:hint="Write here"
             android:padding="16dp"
-            android:layout_toLeftOf="@id/send_btn"
-            android:background="@drawable/rounded_corner"
-            />
+            android:background="@drawable/rounded_corner" />
 
         <ImageButton
             android:id="@+id/send_btn"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:layout_alignParentEnd="true"
-            android:layout_centerInParent="true"
+            android:layout_centerVertical="true"
             android:layout_marginStart="10dp"
             android:background="?attr/selectableItemBackgroundBorderless"
             android:padding="8dp"
             android:src="@drawable/sharp_double_arrow_24"
-
             tools:ignore="SpeakableTextPresentCheck" />
-
-
     </RelativeLayout>
 
+    <!-- ✅ Bottom Navigation View -->
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:layout_alignParentBottom="true"
+        android:background="?android:attr/windowBackground"
 
-
+        app:menu="@menu/bottom_nav_menu" />
 </RelativeLayout>
