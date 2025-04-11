@@ -33,6 +33,8 @@ import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
 class MainActivity : AppCompatActivity(), Detector.DetectorListener {
+    private var detectedInsectName: String? = null
+
     private lateinit var binding: ActivityMainBinding
     private val isFrontCamera = false
 
@@ -97,10 +99,134 @@ class MainActivity : AppCompatActivity(), Detector.DetectorListener {
             val intent = Intent(this, ChoosePictureToDetect::class.java)
             startActivity(intent)
         }
+        val danhSachConTrung = listOf(
+            ConTrung(
+                id = 1,
+                tenTiengViet = "Bọ sọc dưa",
+                tenKhoaHoc = "Acalymma vittatum",
+                loai = "Gây hại",
+                moTa = "Gây hại chủ yếu trên cây họ bầu bí, ăn lá và truyền bệnh héo vi khuẩn.",
+                phanBo = "Phân bố rộng rãi ở Bắc Mỹ, đặc biệt là vùng ôn đới.",
+                hinhThai = "Cơ thể màu vàng nhạt với ba sọc đen chạy dọc lưng, dài khoảng 5-7mm.",
+                phongTru = "Luân canh cây trồng, sử dụng lưới che, bẫy màu vàng, và thuốc trừ sâu sinh học."
 
+            ),
+            ConTrung(
+                id = 2,
+                tenTiengViet = "Bọ nhảy",
+                tenKhoaHoc = "Alticini",
+                loai = "Gây hại",
+                moTa = "Là nhóm bọ nhỏ có khả năng nhảy xa, gây hại cây non bằng cách đục lá.",
+                phanBo = "Phân bố toàn cầu, phổ biến ở khu vực nhiệt đới và cận nhiệt đới.",
+                hinhThai = "Kích thước nhỏ (1-3mm), màu sắc đa dạng, chân sau phát triển mạnh để nhảy.",
+                phongTru = "Che phủ đất, sử dụng thuốc trừ sâu sinh học, giữ độ ẩm đất để hạn chế hoạt động."
+            ),
+            ConTrung(
+                id = 3,
+                tenTiengViet = "Bọ xít bí",
+                tenKhoaHoc = "Anasa tristis (Squash Bug)",
+                loai = "Gây hại",
+                moTa = "Hút nhựa cây bầu bí làm cây héo và suy yếu, có thể gây chết cây.",
+                phanBo = "Bắc Mỹ và Trung Mỹ.",
+                hinhThai = "Cơ thể dài khoảng 15mm, màu xám nâu, có mùi hôi khi bị đe dọa.",
+                phongTru = "Loại bỏ trứng, dùng vải phủ cây, sử dụng thiên địch như ong ký sinh Trichopoda pennipes."
+            ),
+            ConTrung(
+                id = 4,
+                tenTiengViet = "Bọ măng tây",
+                tenKhoaHoc = "Crioceris asparagi",
+                loai = "Gây hại",
+                moTa = "Chuyên gây hại cây măng tây, ăn lá và ngọn non.",
+                phanBo = "Châu Âu và Bắc Mỹ.",
+                hinhThai = "Cơ thể thon dài, màu cam hoặc đỏ với các đốm đen.",
+                phongTru = "Thu gom và tiêu diệt bọ bằng tay, dùng neem oil hoặc thuốc trừ sâu sinh học."
+            ),
+            ConTrung(
+                id = 5,
+                tenTiengViet = "Bọ bí",
+                tenKhoaHoc = "Aulacophora femoralis",
+                loai = "Gây hại",
+                moTa = "Phá hoại lá cây họ bầu bí, ăn lá làm giảm khả năng quang hợp.",
+                phanBo = "Châu Á, đặc biệt phổ biến ở Đông Nam Á.",
+                hinhThai = "Cánh cứng màu cam đỏ, cơ thể nhỏ, dài khoảng 6-8mm.",
+                phongTru = "Sử dụng bẫy màu, thiên địch hoặc phun thuốc thảo mộc."
+            ),
+            ConTrung(
+                id = 6,
+                tenTiengViet = "Bọ tai kẹp",
+                tenKhoaHoc = "Dermaptera",
+                loai = "Không gây hại",
+                moTa = "Sống về đêm, ăn xác côn trùng hoặc chất hữu cơ mục nát.",
+                phanBo = "Phân bố toàn cầu.",
+                hinhThai = "Cơ thể dẹt, màu nâu, phần đuôi có hai càng như kẹp.",
+                phongTru = "Không cần thiết, có thể dùng nếu số lượng quá nhiều bằng cách dọn sạch nơi ẩn nấp."
+            ),
+            ConTrung(
+                id = 7,
+                tenTiengViet = "Bọ khoai tây Colorado",
+                tenKhoaHoc = "Leptinotarsa decemlineata",
+                loai = "Gây hại",
+                moTa = "Phá hoại nghiêm trọng cây khoai tây và các cây họ cà khác.",
+                phanBo = "Châu Mỹ, châu Âu và châu Á.",
+                hinhThai = "Cơ thể hình bầu dục, màu vàng với 10 sọc đen trên cánh.",
+                phongTru = "Thu gom trứng và ấu trùng, sử dụng cây bẫy, phun thuốc vi sinh như Bt."
+            ),
+            ConTrung(
+                id = 8,
+                tenTiengViet = "Bọ ngựa",
+                tenKhoaHoc = "Mantodea",
+                loai = "Không gây hại",
+                moTa = "Là loài ăn thịt côn trùng khác, giúp kiểm soát sâu bệnh tự nhiên.",
+                phanBo = "Phân bố toàn cầu, chủ yếu ở vùng nhiệt đới và cận nhiệt đới.",
+                hinhThai = "Thân dài, đầu hình tam giác, chân trước có gai để bắt mồi.",
+                phongTru = "Không cần, nên bảo vệ và khuyến khích phát triển."
+            ),
+            ConTrung(
+                id = 9,
+                tenTiengViet = "Ốc sên khổng lồ châu Phi",
+                tenKhoaHoc = "Achatina fulica",
+                loai = "Gây hại",
+                moTa = "Gây hại cây trồng, đặc biệt rau màu, là loài xâm lấn mạnh.",
+                phanBo = "Châu Phi, lan sang châu Á và châu Mỹ.",
+                hinhThai = "Vỏ xoắn lớn, dài tới 20cm, màu nâu sẫm.",
+                phongTru = "Thu gom thủ công, sử dụng bẫy, hạn chế độ ẩm để kiểm soát."
+            ),
+            ConTrung(
+                id = 10,
+                tenTiengViet = "Bọ sọc ba vạch",
+                tenKhoaHoc = "Cerotoma trifurcata",
+                loai = "Gây hại",
+                moTa = "Phá hoại cây họ đậu, đặc biệt là đậu nành.",
+                phanBo = "Chủ yếu ở Bắc Mỹ.",
+                hinhThai = "Màu đen với ba sọc vàng cam trên cánh, dài khoảng 6mm.",
+                phongTru = "Luân canh cây trồng, dùng lưới hoặc thuốc trừ sâu sinh học."
+            )
+        )
         btnJetsonCam.setOnClickListener {
-            val intent = Intent(this, JetSonTrapCamera::class.java)
-            startActivity(intent)
+            val name = detectedInsectName // lưu lại 1 bản copy bất biến
+
+            if (!name.isNullOrEmpty()) {
+                Toast.makeText(this, "Tên loài: $name", Toast.LENGTH_SHORT).show()
+                val conTrung = when (name) {
+                    "acalymma" -> danhSachConTrung[0]
+                    "alticini" -> danhSachConTrung[1]
+                    "Squash_Bug" -> danhSachConTrung[2]
+                    "asparagus" -> danhSachConTrung[3]
+                    "aulacophora" -> danhSachConTrung[4]
+                    "dermaptera" -> danhSachConTrung[5]
+                    "leptinotarsa" -> danhSachConTrung[6]
+                    "mantodea" -> danhSachConTrung[7]
+                    "Achatina_fulica" -> danhSachConTrung[8]
+                    "Cerotoma_trifurcata" -> danhSachConTrung[9]
+                    else -> null
+                }
+
+                conTrung?.let {
+                    val intent = Intent(this, infor_insect::class.java)
+                    intent.putExtra("conTrung", it)
+                    startActivity(intent)
+                }
+            }
         }
         //end event
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
@@ -254,18 +380,39 @@ class MainActivity : AppCompatActivity(), Detector.DetectorListener {
     override fun onEmptyDetect() {
         runOnUiThread {
             binding.overlay.clear()
+            detectedInsectName = null
+            binding.jetsoncam.text = "..."
         }
     }
 
-    override fun onDetect(boundingBoxes: List<BoundingBox>, inferenceTime: Long) {
-        runOnUiThread {
-            binding.inferenceTime.text = "${inferenceTime}ms"
-            binding.overlay.apply {
-                setResults(boundingBoxes)
-                invalidate()
-            }
+//    override fun onDetect(boundingBoxes: List<BoundingBox>, inferenceTime: Long) {
+//        runOnUiThread {
+//            binding.inferenceTime.text = "${inferenceTime}ms"
+//            binding.overlay.apply {
+//                setResults(boundingBoxes)
+//                invalidate()
+//            }
+//        }
+//    }
+override fun onDetect(boundingBoxes: List<BoundingBox>, inferenceTime: Long) {
+    runOnUiThread {
+        binding.inferenceTime.text = "${inferenceTime}ms"
+        binding.overlay.apply {
+            setResults(boundingBoxes)
+            invalidate()
+        }
+
+        // Nếu có ít nhất 1 đối tượng được nhận diện
+        if (boundingBoxes.isNotEmpty()) {
+            detectedInsectName = boundingBoxes[0].clsName // lưu tên lớp
+            binding.jetsoncam.text = "Xem: ${detectedInsectName}"
+        } else {
+            detectedInsectName = null
+            binding.jetsoncam.text = "..."
         }
     }
+}
+
 
     private fun toast(message: String) {
         lifecycleScope.launch(Dispatchers.Main) {
