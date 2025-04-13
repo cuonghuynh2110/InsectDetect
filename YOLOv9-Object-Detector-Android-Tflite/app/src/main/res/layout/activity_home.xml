@@ -39,7 +39,7 @@
             android:textColor="#000000"/>
     </LinearLayout>
 
-    <!-- 📋 Nội dung chính gồm 2 ListView chia đều chiều cao -->
+
     <LinearLayout
         android:id="@+id/contentLayout"
         android:layout_width="0dp"
@@ -91,13 +91,14 @@
                 android:textColor="#444444"
                 android:layout_marginBottom="4dp" />
 
-            <ListView
-                android:id="@+id/listPosts"
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_post"
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_weight="1"
-                android:divider="@android:color/darker_gray"
-                android:dividerHeight="1dp" />
+                android:layout_marginTop="15dp"
+                android:padding="8dp" />
+
         </LinearLayout>
     </LinearLayout>
 

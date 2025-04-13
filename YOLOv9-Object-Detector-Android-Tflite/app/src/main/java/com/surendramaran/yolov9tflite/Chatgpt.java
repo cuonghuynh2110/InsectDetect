@@ -2,6 +2,9 @@ package com.surendramaran.yolov9tflite;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.view.OnApplyWindowInsetsListener;
+import androidx.core.view.ViewCompat;
+import androidx.core.view.WindowInsetsCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -41,13 +44,15 @@ public class Chatgpt extends AppCompatActivity {
     public static final MediaType JSON = MediaType.get("application/json; charset=utf-8");
     OkHttpClient client = new OkHttpClient();
 
-    String API_KEY = "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";
+    String API_KEY = "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";
     String API_URL = "https://openrouter.ai/api/v1/chat/completions";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chatgpt);
+
+
         messageList = new ArrayList<>();
 
         recyclerView = findViewById(R.id.recycler_view);

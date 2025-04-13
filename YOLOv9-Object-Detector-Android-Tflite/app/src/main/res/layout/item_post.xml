@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="72dp"
+    android:orientation="horizontal"
+    android:padding="8dp"
+    android:gravity="center_vertical">
+
+    <!-- 🐞 Ảnh đại diện -->
+    <ImageView
+        android:id="@+id/imageInsect"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:scaleType="centerCrop"
+        android:background="@drawable/rounded_square_bg"
+        android:src="@drawable/ic_launcher_foreground" />
+
+    <!-- 📝 Tên côn trùng -->
+    <TextView
+        android:id="@+id/textInsectName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Tên côn trùng"
+        android:textSize="18sp"
+        android:layout_marginStart="12dp"
+        android:textColor="#000000" />
+</LinearLayout>

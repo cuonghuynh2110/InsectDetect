@@ -12,6 +12,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.google.android.material.textfield.TextInputEditText
@@ -34,7 +36,7 @@ class Home : AppCompatActivity() {
             install(Storage)
         }
     }
-
+    private lateinit var rvPost: RecyclerView
     private lateinit var avatarImageView: ImageView
     private lateinit var username: TextView
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,7 +46,7 @@ class Home : AppCompatActivity() {
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, 0)
             insets
         }
 
@@ -52,6 +54,26 @@ class Home : AppCompatActivity() {
         //Anh xa
         avatarImageView = findViewById(R.id.imageAvatar)
         username = findViewById(R.id.textName)
+        rvPost = findViewById(R.id.rv_post)
+        rvPost.layoutManager = GridLayoutManager(this, 2)
+
+// Khởi tạo adapter với callback khi click vào item
+        val adapter = PostAdapter(mutableListOf()) { selectedPost ->
+            val intent = Intent(this, ChiTietBaiViet::class.java)
+            intent.putExtra("title", selectedPost.title)
+            intent.putExtra("content", selectedPost.content)
+            intent.putExtra("imageUrl", selectedPost.imageUrl)
+            intent.putExtra("date", selectedPost.date)
+            startActivity(intent)
+        }
+
+        rvPost.adapter = adapter
+
+// Gọi Supabase để lấy danh sách post
+        fetchPosts { postList ->
+            adapter.updateData(postList)
+        }
+
 
 
         //nhan data
@@ -187,8 +209,8 @@ class Home : AppCompatActivity() {
         )
 
 
-        val adapter = InsectAdapter(this, insectList)
-        listView.adapter = adapter
+        val adapter1 = InsectAdapter(this, insectList)
+        listView.adapter = adapter1
         listView.setOnItemClickListener { _, _, position, _ ->
             val conTrung = danhSachConTrung[position]
 
@@ -264,5 +286,35 @@ class Home : AppCompatActivity() {
             }
         }
     }
+    private fun fetchPosts(callback: (List<post>) -> Unit) {
+        lifecycleScope.launch {
+            try {
+                val baiVietList = supabase.postgrest["baiviet"]
+                    .select()
+                    .decodeList<BaiViet>()
+
+                val postList = baiVietList.map {
+                    post(
+                        title = it.tieu_de,
+                        imageUrl = it.anh,
+                        content = it.noi_dung,
+                        date = it.created_at.toString(),
+                    )
+                }
+
+                // ✅ Thông báo số lượng bài viết
+                Toast.makeText(this@Home, "Tải ${postList.size} bài viết thành công!", Toast.LENGTH_SHORT).show()
+
+                callback(postList)
+
+            } catch (e: Exception) {
+                Log.e("Supabase", "Lỗi tải bài viết: ${e.message}")
+                // ✅ Thông báo lỗi
+                Toast.makeText(this@Home, "Lỗi tải bài viết: ${e.message}", Toast.LENGTH_LONG).show()
+            }
+        }
+    }
+
+
 }
 

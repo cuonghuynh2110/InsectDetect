@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    tools:context=".ChiTietBaiViet"
+    android:background="#FFFFFF">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Ảnh bài viết -->
+            <ImageView
+                android:id="@+id/imgAnh"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginBottom="16dp"
+                android:scaleType="centerCrop"
+                android:background="@drawable/rounded_image"
+                android:clipToOutline="true"
+                android:src="@drawable/alticini" />
+
+            <!-- Ngày đăng -->
+            <TextView
+                android:id="@+id/tvNgayDang"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Ngày đăng: 2025-04-14"
+                android:textSize="14sp"
+                android:textColor="#666666"
+                android:layout_marginBottom="8dp" />
+
+            <!-- Tiêu đề -->
+            <TextView
+                android:id="@+id/tvTieuDe"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Tiêu đề bài viết"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                android:textColor="#000000"
+                android:layout_marginBottom="12dp" />
+
+            <!-- Nội dung -->
+            <TextView
+                android:id="@+id/tvNoiDung"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Nội dung bài viết sẽ hiển thị ở đây..."
+                android:textSize="16sp"
+                android:textColor="#000000"
+                android:lineSpacingExtra="4dp"
+                android:layout_marginBottom="24dp" />
+
+        </LinearLayout>
+    </ScrollView>
+</RelativeLayout>

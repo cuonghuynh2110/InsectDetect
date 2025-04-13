@@ -54,6 +54,11 @@ class MainActivity : AppCompatActivity(), Detector.DetectorListener {
         enableEdgeToEdge()
         setContentView(binding.root)
 
+        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
+            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
+            v.setPadding(systemBars.left, systemBars.top, systemBars.right, 0)
+            insets
+        }
         //
         // Gắn sự kiện cho bottom navigation
         val bottomNav = findViewById<BottomNavigationView>(R.id.bottom_navigation)

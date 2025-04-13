@@ -111,7 +111,7 @@ class DangNhap : AppCompatActivity() {
                                     startActivity(intent)
                                 }
                                 "admin" -> {
-                                    startActivity(Intent(this@DangNhap, dangky::class.java))
+                                    startActivity(Intent(this@DangNhap, Admin::class.java))
                                 }
                                 else -> {
                                     Toast.makeText(this@DangNhap, "Vai trò không hợp lệ", Toast.LENGTH_SHORT).show()
