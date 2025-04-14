@@ -55,7 +55,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="20dp"
-        android:text="My Collections"
+        android:text="Bộ sưu tập"
         android:textColor="@android:color/black"
         android:textSize="18sp"
         android:textStyle="bold"
