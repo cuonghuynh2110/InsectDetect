@@ -146,6 +146,7 @@ class AdminPost : AppCompatActivity() {
 }
 @Serializable
 data class BaiViet(
+    val id: String? = null,
     val tieu_de: String,
     val noi_dung: String,
     val anh: String,

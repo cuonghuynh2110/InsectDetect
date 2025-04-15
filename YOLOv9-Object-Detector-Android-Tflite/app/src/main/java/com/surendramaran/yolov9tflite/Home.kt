@@ -36,6 +36,8 @@ class Home : AppCompatActivity() {
             install(Storage)
         }
     }
+    lateinit var userId: String
+    lateinit var postId: String
     private lateinit var rvPost: RecyclerView
     private lateinit var avatarImageView: ImageView
     private lateinit var username: TextView
@@ -60,16 +62,19 @@ class Home : AppCompatActivity() {
 // Khởi tạo adapter với callback khi click vào item
         val adapter = PostAdapter(mutableListOf()) { selectedPost ->
             val intent = Intent(this, ChiTietBaiViet::class.java)
+
             intent.putExtra("title", selectedPost.title)
             intent.putExtra("content", selectedPost.content)
             intent.putExtra("imageUrl", selectedPost.imageUrl)
             intent.putExtra("date", selectedPost.date)
+            intent.putExtra("userId", userId)
+            intent.putExtra("postId", selectedPost.id)
             startActivity(intent)
         }
 
         rvPost.adapter = adapter
 
-// Gọi Supabase để lấy danh sách post
+
         fetchPosts { postList ->
             adapter.updateData(postList)
         }
@@ -268,7 +273,7 @@ class Home : AppCompatActivity() {
                         }
                     }
                     .decodeSingle<NguoiDung>()
-
+                userId = user.id
                 val avatarPath = user.anh
 
                 if (!avatarPath.isNullOrBlank()) {
@@ -294,7 +299,10 @@ class Home : AppCompatActivity() {
                     .decodeList<BaiViet>()
 
                 val postList = baiVietList.map {
+
+
                     post(
+                        id = it.id,
                         title = it.tieu_de,
                         imageUrl = it.anh,
                         content = it.noi_dung,
@@ -314,7 +322,5 @@ class Home : AppCompatActivity() {
             }
         }
     }
-
-
 }
 

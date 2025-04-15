@@ -27,36 +27,35 @@
                 android:scaleType="centerCrop"
                 android:src="@drawable/alticini" />
 
-
-            <!-- Tên chính -->
-            <TextView
-                android:id="@+id/tvTen"
-                android:layout_width="wrap_content"
+            <!-- Tên chính và nút Lưu -->
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Cabbage white"
-                android:textSize="22sp"
-                android:textStyle="bold"
-                android:textColor="#000000" />
+                android:orientation="horizontal"
+                android:gravity="center_vertical"
+                android:layout_marginBottom="8dp">
 
-            <!-- Họ và chi -->
-<!--            <TextView-->
-<!--                android:id="@+id/tvHoChi"-->
-<!--                android:layout_width="wrap_content"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="a species of Whites and sulphurs (Pieridae)"-->
-<!--                android:textSize="14sp"-->
-<!--                android:textColor="#777777"-->
-<!--                android:layout_marginBottom="8dp" />-->
+                <TextView
+                    android:id="@+id/tvTen"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="Cabbage white"
+                    android:textSize="22sp"
+                    android:textStyle="bold"
+                    android:textColor="#000000" />
 
-            <!-- Các tên gọi khác -->
-<!--            <TextView-->
-<!--                android:id="@+id/tvTenKhac"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="Also known as: Cabbage white butterfly, Small white, Pepe ma, etc."-->
-<!--                android:textSize="14sp"-->
-<!--                android:textColor="#333333"-->
-<!--                android:layout_marginBottom="8dp" />-->
+                <Button
+                    android:id="@+id/btnLuuBaiViet"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Lưu"
+                    android:backgroundTint="#4CAF50"
+                    android:textColor="#FFFFFF"
+                    android:paddingLeft="12dp"
+                    android:paddingRight="12dp"
+                    android:layout_marginStart="8dp"/>
+            </LinearLayout>
 
             <!-- Tên khoa học -->
             <TextView
@@ -68,17 +67,7 @@
                 android:textColor="#333333"
                 android:layout_marginBottom="4dp" />
 
-            <!-- Chi -->
-<!--            <TextView-->
-<!--                android:id="@+id/tvChi"-->
-<!--                android:layout_width="match_parent"-->
-<!--                android:layout_height="wrap_content"-->
-<!--                android:text="Genus: Pieris"-->
-<!--                android:textSize="14sp"-->
-<!--                android:textColor="#333333"-->
-<!--                android:layout_marginBottom="16dp" />-->
-
-            <!-- Non-toxic & Harmful badges -->
+            <!-- Badges -->
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -105,7 +94,7 @@
                     android:textSize="14sp" />
             </LinearLayout>
 
-            <!-- Đặc tính -->
+            <!-- 📖 Mô tả -->
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -123,9 +112,7 @@
                 android:textColor="#000000"
                 android:layout_marginBottom="16dp" />
 
-            <!-- Ngoại hình -->
-
-
+            <!-- Hình dạng -->
             <TextView
                 android:id="@+id/tvMota"
                 android:layout_width="match_parent"

@@ -1,6 +1,7 @@
 package com.surendramaran.yolov9tflite
 
 import android.os.Bundle
+import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -8,8 +9,21 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import io.github.jan.supabase.createSupabaseClient
+import io.github.jan.supabase.postgrest.Postgrest
+import io.github.jan.supabase.storage.Storage
 
 class infor_insect : AppCompatActivity() {
+    private val supabase by lazy {
+        createSupabaseClient(
+            supabaseUrl = "https://ydavhbhglxgzeiggzpgg.supabase.co",
+            supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InlkYXZoYmhnbHhnemVpZ2d6cGdnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDM4MjQ4NjEsImV4cCI6MjA1OTQwMDg2MX0.7az8QQl04TZigqDsz5RPmTzeGGG_4TRc1QU-ROKTiPc"
+        ) {
+            install(Postgrest)
+            install(Storage)
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -28,6 +42,8 @@ class infor_insect : AppCompatActivity() {
         val tvPhanbo = findViewById<TextView>(R.id.tvPhanbo)
         val tvHinhtai = findViewById<TextView>(R.id.tvHinhtai)
         val tvPhongtru = findViewById<TextView>(R.id.tvPhongtru)
+        val btnLuu = findViewById<Button>(R.id.btnLuuBaiViet)
+
 
         // Gán dữ liệu nếu có
         conTrung?.let {

@@ -44,7 +44,7 @@ public class Chatgpt extends AppCompatActivity {
     public static final MediaType JSON = MediaType.get("application/json; charset=utf-8");
     OkHttpClient client = new OkHttpClient();
 
-    String API_KEY = "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";
+    String API_KEY = "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";
     String API_URL = "https://openrouter.ai/api/v1/chat/completions";
 
     @Override
