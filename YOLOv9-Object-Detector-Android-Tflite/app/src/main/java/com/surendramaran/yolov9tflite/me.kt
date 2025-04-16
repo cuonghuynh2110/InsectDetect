@@ -2,11 +2,13 @@ package com.surendramaran.yolov9tflite
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.provider.FontsContractCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.lifecycle.lifecycleScope
@@ -17,9 +19,12 @@ import com.bumptech.glide.load.resource.bitmap.CircleCrop
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import io.github.jan.supabase.createSupabaseClient
 import io.github.jan.supabase.postgrest.Postgrest
+import io.github.jan.supabase.postgrest.from
 import io.github.jan.supabase.postgrest.postgrest
+import io.github.jan.supabase.postgrest.query.Columns
 import io.github.jan.supabase.storage.Storage
 import kotlinx.coroutines.launch
+import kotlinx.serialization.Serializable
 
 class me : AppCompatActivity() {
 
@@ -32,6 +37,7 @@ class me : AppCompatActivity() {
             install(Storage)
         }
     }
+    private lateinit var userId: String
     private lateinit var imgAvt: ImageView
     private lateinit var imgSetting: ImageView
     private lateinit var tvUsername: TextView
@@ -65,24 +71,39 @@ class me : AppCompatActivity() {
 
         tvUsername.setText(email)
         // Dùng email này để truy vấn ảnh người dùng trên Supabase
+
+        val adapter = PostAdapter(mutableListOf()) { selectedPost ->
+            val intent = Intent(this, ChiTietBaiViet::class.java)
+
+            intent.putExtra("title", selectedPost.title)
+            intent.putExtra("content", selectedPost.content)
+            intent.putExtra("imageUrl", selectedPost.imageUrl)
+            intent.putExtra("date", selectedPost.date)
+            intent.putExtra("userId", userId)
+            intent.putExtra("postId", selectedPost.id)
+            startActivity(intent)
+        }
+
+        rvCollections.adapter = adapter
         if (email != null) {
-            fetchUserAvatarByEmail(email)
+            fetchUserAvatarByEmail(email) {
+                fetchPosts { postList ->
+                    adapter.updateData(postList)
+                }
+            }
         } else {
             Toast.makeText(this, "Không nhận được email", Toast.LENGTH_SHORT).show()
         }
 
 
         // Dữ liệu mẫu
-        val sampleData = listOf(
-            CollectionItem("abc", "Western striped cucumber beetle", "2025-03-26"),
-            CollectionItem("abc", "Striped cucumber beetle", "2025-03-20"),
-            CollectionItem("abc", "Green stink bug", "2025-03-18"),
-
-        )
-
-        // Thiết lập RecyclerView
         rvCollections.layoutManager = GridLayoutManager(this, 2)
-        rvCollections.adapter = CollectionAdapter(sampleData)
+
+// Khởi tạo adapter với callback khi click vào item
+
+
+
+
 
         // Xử lý bottom navigation
         bottomNav.selectedItemId = R.id.nav_me
@@ -124,19 +145,17 @@ class me : AppCompatActivity() {
             startActivity(intent)
         }
     }
-    private fun fetchUserAvatarByEmail(email: String) {
+    private fun fetchUserAvatarByEmail(email: String, onUserIdReady: () -> Unit) {
         lifecycleScope.launch {
             try {
                 val user = supabase.postgrest["nguoidung"]
-                    .select {
-                        filter {
-                            eq("email", email)
-                        }
-                    }
+                    .select { filter { eq("email", email) } }
                     .decodeSingle<NguoiDung>()
 
-                val avatarPath = user.anh
+                userId = user.id // Gán giá trị trước khi gọi callback
+                onUserIdReady() // Gọi callback khi userId đã có
 
+                val avatarPath = user.anh
                 if (!avatarPath.isNullOrBlank()) {
                     Glide.with(this@me)
                         .load(avatarPath)
@@ -144,12 +163,67 @@ class me : AppCompatActivity() {
                         .error(R.drawable.ic_baseline_person_24)
                         .transform(CircleCrop())
                         .into(imgAvt)
-                } else {
-                    Toast.makeText(this@me, "Người dùng chưa có ảnh đại diện", Toast.LENGTH_SHORT).show()
                 }
             } catch (e: Exception) {
                 Toast.makeText(this@me, "Lỗi truy vấn avatar: ${e.message}", Toast.LENGTH_LONG).show()
             }
         }
     }
+    private fun fetchPosts(callback: (List<post>) -> Unit) {
+        lifecycleScope.launch {
+            try {
+//                val baiVietList = supabase.postgrest["baiviet"]
+//                    .select(Columns.raw("*")) {
+//                        filter {
+//                            eq("like", 1)
+//                        }
+//                    }
+//                    .decodeList<BaiViet>()
+                val baiVietList = supabase.from("baiviet").select(
+                    Columns.raw("""
+        id,
+        tieu_de,
+        anh,
+        noi_dung,
+        created_at,
+        nguoidung_id,
+        yeuthich_baiviet!inner (
+            baiviet_id,
+            nguoidung_id
+        )
+    """.trimIndent())
+                ).decodeList<BaiViet>()
+
+                val postList = baiVietList.map {
+
+
+                    post(
+                        id = it.id,
+                        title = it.tieu_de,
+                        imageUrl = it.anh,
+                        content = it.noi_dung,
+                        date = it.created_at.toString(),
+                    )
+                }
+
+                // ✅ Thông báo số lượng bài viết
+                Toast.makeText(this@me, "Tải ${postList.size} bài viết thành công!", Toast.LENGTH_SHORT).show()
+
+                callback(postList)
+
+            } catch (e: Exception) {
+                Log.e("Supabase", "Lỗi tải bài viết: ${e.message}")
+                // ✅ Thông báo lỗi
+                Toast.makeText(this@me, "Lỗi tải bài viết: ${e.message}", Toast.LENGTH_LONG).show()
+            }
+        }
+    }
 }
+
+@Serializable
+data class YeuThichBaiViet(
+    val id: String? = null,
+    val nguoidung_id: String,
+    val baiviet_id: String,
+    val created_at: String? = null
+)
